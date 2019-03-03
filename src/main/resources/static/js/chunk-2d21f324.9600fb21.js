@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d21f324"],{d992:function(e,n,t){"use strict";t.r(n);var i=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("h1",[e._v("Settings page! Developing...")])},l=[],s=t("2877"),u={},o=Object(s["a"])(u,i,l,!1,null,null,null);o.options.__file="Settings.vue";n["default"]=o.exports}}]);
+//# sourceMappingURL=chunk-2d21f324.9600fb21.js.map

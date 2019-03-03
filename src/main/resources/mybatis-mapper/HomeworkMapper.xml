@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.swu.mapper.HomeworkMapper">
+
+	<!-- select homework by id -->
+	<select id="getHomeworkById" resultType="Homework">
+		SELECT * FROM homework WHERE hid = #{hid}
+	</select>
+	
+	<!-- select all the homework -->
+	<select id="getHomeworks" resultType="Homework">
+		SELECT hid, title, pubTime, notice, imgUrl
+		FROM homework
+	</select>
+	
+	<!-- select a teacher's homework -->
+	<select id="getHomeworksOfTeacher" resultType="Homework">
+		SELECT hid, title, pubTime, notice, imgUrl
+		FROM homework
+		WHERE tid = #{tid}
+	</select>
+	
+	<!-- add homework -->
+	<insert id="addHomework" useGeneratedKeys="true" keyProperty="hid" parameterType="Homework">
+		insert into homework(tid,title,descb,repu,notice,pubTime,imgUrl)
+		values(#{tid},#{title},#{descb},#{repu},#{notice},#{pubTime},#{imgUrl})
+	</insert>
+	
+</mapper>

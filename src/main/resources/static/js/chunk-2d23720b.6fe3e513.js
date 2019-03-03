@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d23720b"],{fa93:function(e,n,t){"use strict";t.r(n);var l=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("h1",[e._v("FAQ page.Developing...")])},u=[],o=t("2877"),a={},c=Object(o["a"])(a,l,u,!1,null,null,null);c.options.__file="FAQ.vue";n["default"]=c.exports}}]);
+//# sourceMappingURL=chunk-2d23720b.6fe3e513.js.map

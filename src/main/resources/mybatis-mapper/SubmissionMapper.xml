@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.swu.mapper.SubmissionMapper">
+
+	<!-- submissionVo map -->
+	<resultMap id="submissionVoMap" type="SubmissionVo">
+		<id column="sub.sid" property="sid"></id>
+		<result column="sub.content" property="content"></result>
+		<result column="sub.time" property="time"></result>
+		<result column="sub.copied" property="copied"></result>
+		<result column="sub.similar" property="similar"></result>
+		<result column="sub.grade" property="grade"></result>
+		<result column="name" property="name"></result>
+	</resultMap>
+
+	<!-- select a submission by sid -->
+	<select id="getSubmissionById" resultType="Submission">
+		SELECT * FROM submission WHERE sid = #{sid}
+	</select>
+	
+	<!-- select a teacher's all submission -->
+	<select id="getSubmissionsOfTeacher" resultType="SubmissionVo">
+		SELECT sub.sid, name, sub.content, sub.time, sub.copied, sub.similar, sub.grade, sub.ssid
+		FROM student JOIN (
+			SELECT sid, content, ssid, time, copied, similar, grade
+			FROM submission
+			WHERE hid = (SELECT hid FROM homework WHERE tid = #{tid})
+		) as sub ON student.sid = sub.ssid
+	</select>
+	
+	<!-- select all submissions by hid -->
+	<select id="getSubmissionsOfHomework" resultType="Submission">
+		SELECT sid, ssid, finger, min, copied FROM submission WHERE hid = #{hid}
+	</select>
+	
+	<!-- work for export excel file -->
+	<select id="getGrade" resultType="SubmissionVo">
+		SELECT sub.ssid, name, sub.grade
+		FROM (
+			SELECT ssid, grade
+			FROM submission
+			WHERE hid = #{hid}
+		) AS sub INNER JOIN student ON sub.ssid = student.sid
+	</select>
+	
+	<!-- get submissions -->
+	<select id="getSubmissions" resultType="SubmissionVo">
+		SELECT sub.sid, name, sub.content, sub.time, sub.copied, sub.similar, sub.grade, sub.ssid
+		FROM student INNER JOIN (
+			SELECT sid, content, time, copied, similar, grade, ssid
+			FROM submission	
+			WHERE hid = #{hid}	
+		) AS sub ON student.sid = sub.ssid
+	</select>
+	
+	<!-- add a submission -->
+	<insert id="addSubmission" useGeneratedKeys="true" keyProperty="sid">
+		INSERT INTO submission(content,ssid,hid,time,finger)
+		VALUES(#{content},#{ssid},#{hid},#{time},#{finger})
+	</insert>
+	
+	<!-- update a submission selectivly -->
+	<update id="updateSubmission" parameterType="map">
+		UPDATE submission
+		<set>
+			<if test="content != null and content != ''">
+				content = #{content},
+			</if>
+			<if test="finger != null">
+				finger = #{finger},
+			</if>
+			<if test="time != null">
+				time = #{time},
+			</if>
+			<if test="copied != null">
+				copied = #{copied},
+			</if>
+			<if test="similar != null">
+				similar = #{similar},
+			</if>
+			<if test="grade != null">
+				grade = #{grade},
+			</if>
+			<if test="min != null">
+				min = #{min}
+			</if>
+		</set>
+		WHERE sid = #{sid}
+	</update>
+	
+</mapper>
